@@ -1,0 +1,24 @@
+name: Calculator CI
+
+on:
+  push:
+    branches:
+      - main
+      - "feature/**"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t calculator-app:ci .
+
+      - name: Run unit tests inside container
+        run: docker run --rm calculator-app:ci
